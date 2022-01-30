@@ -1,0 +1,113 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.0.0.157",
+      "metaVersion": 1,
+      "provider": "vegaLite"
+    },
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "dataPointLimit": 50
+    },
+    "information": {
+      "name": "HarveyBalls",
+      "description": "A data visual that correlates two percentage values using arcs, creating a Harvey Ball data visualization",
+      "author": "Tom Martens",
+      "uuid": "3894880b-70d1-422c-8db7-cdabab22e958",
+      "generated": "2022-01-30T19:20:31.496Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "Category",
+        "description": "A categorical variable",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "resource1Percentage",
+        "description": "A percentage value that represents the current spending of a resource like budget.",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__2__",
+        "name": "gainPercentage",
+        "description": "A percentage value that represents the gain for a task or set of takse like the overall completion of a project.",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ]
+  },
+  "config": {
+    "autosize": {
+      "type": "fit",
+      "contains": "padding"
+    }
+  },
+  "data": {"name": "dataset"},
+  "transform": [
+    {
+      "calculate": "datum.__1__ * 6.28318",
+      "as": "arcbudget"
+    },
+    {
+      "calculate": "datum.__2__ * 6.28318",
+      "as": "arccompletion"
+    }
+  ],
+  "facet": {"field": "__0__"},
+  "columns": 2,
+  "spec": {
+    "layer": [
+      {
+        "mark": {
+          "type": "arc",
+          "radius": 0,
+          "radius2": 100,
+          "innerRadius": 90,
+          "theta": 0
+        },
+        "encoding": {
+          "theta2": {
+            "field": "arcbudget",
+            "type": "quantitative"
+          },
+          "color": {
+            "condition": {
+              "test": "datum['__2__'] < datum['__1__']",
+              "value": "orange"
+            },
+            "value": "lightgrey"
+          }
+        }
+      },
+      {
+        "mark": {
+          "type": "arc",
+          "radius": 0,
+          "radius2": 100,
+          "innerRadius": 65,
+          "theta": 0
+        },
+        "encoding": {
+          "theta2": {
+            "field": "arccompletion",
+            "type": "quantitative"
+          },
+          "color": {
+            "condition": {
+              "test": "datum['__2__'] < datum['__1__']",
+              "value": "lightgrey"
+            },
+            "value": "lightgreen"
+          }
+        }
+      }
+    ]
+  }
+}

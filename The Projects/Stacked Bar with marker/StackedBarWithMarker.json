@@ -1,0 +1,116 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.0.0.157",
+      "metaVersion": 1,
+      "provider": "vegaLite"
+    },
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": false,
+      "dataPointLimit": 50
+    },
+    "information": {
+      "name": "Stacked Bar with Marker",
+      "description": "Creates a visual that basically is a stacked bar chart, but in comparison to the default stacked bar chart it provides a marker at 50% of the total sum of the segments inside each stack. This allows to easily discover the segments that contribute 50%  of the whole stack.",
+      "author": "[No Author Details Provided]",
+      "uuid": "71407b18-5d4a-4da3-b10e-c99683e66a06",
+      "generated": "2022-01-30T19:34:59.970Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "group",
+        "description": "A categorical variable used as axis label ",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "segment",
+        "description": "A categorical variable that creates the segment for each stack.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "amount",
+        "description": "A numerical value.",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ]
+  },
+  "config": {
+    "autosize": {
+      "type": "fit",
+      "contains": "padding"
+    }
+  },
+  "data": {"name": "dataset"},
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
+  "transform": [
+    {
+      "calculate": "datum.__2__ * -1",
+      "as": "segmentOrder"
+    },
+    {
+      "calculate": "datum.__2__  * 0.5",
+      "as": "thepoint"
+    }
+  ],
+  "resolve": {
+    "scale": {"color": "independent"}
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "tooltip": true
+      },
+      "encoding": {
+        "x": {
+          "field": "__2__",
+          "type": "quantitative"
+        },
+        "color": {"field": "__1__"},
+        "order": {
+          "field": "segmentOrder"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "shape": "triangle-down",
+        "size": 250,
+        "filled": true,
+        "stroke": "black",
+        "strokeWidth": 1,
+        "fill": "red",
+        "yOffset": {
+          "expr": "-bandwidth('y')/2"
+        }
+      },
+      "encoding": {
+        "x": {
+          "aggregate": "sum",
+          "field": "thepoint",
+          "type": "quantitative",
+          "stack": "zero"
+        }
+      }
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "__0__",
+      "type": "nominal"
+    }
+  }
+}
