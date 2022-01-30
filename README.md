@@ -13,6 +13,6 @@ Throughout, the next months I will use this repo to share my findings, my projec
 
 The next sections will desribe the topology of a specifiation, its sections like mark, encoding, layers, and all the details that have not been from the beginning. This is not about how to use deneb inside Power BI, this is described in very great detail on the official site.
 
-# The spcification
+# The specification
 # The mark
 # The encoding
