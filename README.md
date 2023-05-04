@@ -70,12 +70,14 @@ Dear reader, please excuse this section. I know that you are expecting data tran
 Whenever I start something new using a technology or programming language that I do not speak fluently, I start with creating a mental model to discover obstacles early.
 To create the above data visualization some challenges/obstacles are obvious:
 
-
 + The final data viz is constructed by aligning different visualization types, a table like structure on the left, a stacked bar chart with data labels in the middle and a table like structure on the right. All three visualizations have to use the data from the column "group" as a common y-axis
 + Data has to be aggregated to create the values for the tabular like visualization on the left
 + Data has to be aggregated to create the data labels for the three segments ("C", "D", "E")
 
 If you are not familiar with the ![vega-lite text mark](https://vega.github.io/vega-lite/docs/text.html), then one task that has to be tackled that does not appear immediately before your third eye -  the placement of the data label inside each bar at the base (or left) of each segment. If you are using Power BI as I do, then we have to admit that we are a little spoiled in regards to the placement of the data labels. We simply turn on the property, then we tweak the placement a little inside the given boundaries, nevertheless, often I'm able to achieve what I want. If not, I use the one that comes closest to what I want. Now, using vega-lite it's time to face the hard reality, showing data labels is not a simple property, it requires thinking and some maths. The next section will describe all the necessary transformations (more or less) to determine the position for the text placement at the base of each segment.
+
+As this section will move to a better place, the gist that creates the above data viz will stay, here is the link: ![multi-view composition - stacked-bullet chart](https://vega.github.io/editor/#/gist/30bb2932e8924bce69ec7d0fd050831e/multi view composition - stacked bullet chart.json)
+
 ## the text mark (this section will move to where it belongs, guess what - in the not so distant future)
 The next image shows all transforms including the "filter" transform that is removing duplicate rows.  The column "xSegmentBase" might be considered the final transform, this column contains the values necessary to place the text (that's what a data label is) at the base (the left border of a horizontal bar) of each segment (column: a) inside a stack (column: group):
 
@@ -92,9 +94,88 @@ The position of a segment's base is determined by a simple subtraction: [the sum
   "as": "xSegmentBase"
 }
 ```
+The formula to calculate the wanted value is provided between quotation marks. The name of the new column is defined by using the key-word "as".
+Referencing a column inside a data object is done by using datum. Datum can be used with many notations styles like datum.columnname or as I do datum['columnname']. To be honest, I'm not expert enough to recommend one over the other.
 
+## the join aggregate ![join aggregate](https://vega.github.io/vega-lite/docs/joinaggregate.html)
+JoinAggregate is a very powerful transform as it creates new values based on aggregations across multiple rows while preserving all rows. This transform is very useful if  detailValue / groupValue calculations are needed for the data visualization. Preserving rows of course, means repeating  values. This must not be fogotton. I will remove all unnecessary rows by using the filter transform, but this is a later step.
+The next two code snippets show how the columns segmentSum and groupSum are calculated:
 
+```
+{
+  "joinaggregate": [
+    {
+     "field": ["b"], 
+     "op": ["sum"],
+     "as": ["segmentSum"]
+    }
+  ],
+  "groupby": ["group", "a"] 
+}
+```
 
+```
+{
+  "joinaggregate": [
+    {
+      "field": ["b"], 
+      "op": ["sum"], 
+      "as": ["groupSum"]
+    }
+  ],
+  "groupby": ["group"]
+}
+```
+
+Looking at the syntax, it becomes obvious that each joinaggregate transformation is part of a list (the outer curly brackets). This list contains multiple transformations, where each transformation is an array. 
+The next image shows how the transform works to create the column "segmentSum":
+
+<img width="343" alt="transform - joinaggregate" src="https://user-images.githubusercontent.com/29025119/236118505-3e4fed28-dd7e-4d1d-a11d-32ad0c0f2592.png">
+
+It's necessary to note that the order of the columns that are passed to the "groupby" phrase does not influence the result.
+
+## the window transform ![window transform](https://vega.github.io/vega-lite/docs/window.html)
+WINDOW adding new columns based on calculations for a sorted partition of a data object (a sorted group of rows). This is similar to the windowing functions you might know from SQL and can also be compared to the new DAX windowing functions. The next two code snippets show how the columns "rowIndexByGroupAndSegment" and "runningSumBySegment" are calculated:
+
+```
+{
+  "window": [
+    {
+      "op": ["row_number"], 
+      "as": ["rowIndexByGroupAndSegment"]
+    }
+  ], 
+  "groupby": ["group", "a"]
+}
+```
+
+```
+{
+  "window": [{
+    "op": "sum",
+    "field": "segmentSum",
+    "as": "runningSumBySegment"
+  }],
+  "groupby": ["group"],
+  "sort": [{"field": "rowIndexByGroup", "order": "ascending"}]
+}
+```
+
+Due to the nature of the operator ("op", the operator determines the window function) the data field can be omitted, e.g. row_number does not require a data field.
+The transform that creates the column "runningSumBySegment" is special in many cases, first it is demonstrating that columns can be referenced that have been created in preceeding transforms, but it is also using the power of the window transform. Here the data object is partitioned by the field "group", then the rows inside each partition are sorted by the field "rowIndexByGroup". The partitions are determined by the columns specified by the "groupby" operator. But the real "magic" of the window transform happens when the aggregation function (specified by the "op" operator) is applied to each row of the ordered partition. But this application is not only considering the current row, instead the aggregation function is applied to the current row and all preceeding rows, the preceedings rows are determined by the value of the column that is defined by the "sort" operator.  I always imagine the application of a window transform (but not only when I'm using vega or vega-lite) as an iterator. This iterator loops across all the rows inside a partition applies the aggregation function to a stack of values. Of course this stack is can be a single value, e.g. when the aggregation is more simple like count or sum, or a real stack of many values when the aggregation function is more complex like rank. I assume this is the reason why I consider the application of window transforms as some kind of magic, I do not have to implement the logic by myself I only use operators and magic is happening. The next image hopefully explains some of this magic:
+
+<img width="425" alt="transform -window iterating across rows inside a partition" src="https://user-images.githubusercontent.com/29025119/236118887-007321a1-0041-40ad-886c-33bd5111fa46.png">
+
+## the filter transform ![filter transform](https://vega.github.io/vega-lite/docs/filter.html)
+The filter transform simply filters the data object, the next code snippet shows a very simple filter:
+
+```
+{
+  "filter": "datum['rowIndexByGroupAndSegment']===1"
+}
+```
+
+I very often use the transform operation "joinaggregate", this operation repeats an aggregated value for a given partition. This of course requires removing these duplicate values at a later stage. This is exactly what the above snippet is doing.
 
 # The mark
 # The encoding
