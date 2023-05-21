@@ -1,0 +1,15 @@
+{
+  "data": {
+    "values": [
+      {"group": "I", "groupSort": 1, "segment": "A", "b": 2000000, "t": 22500000},
+      {"group": "I", "groupSort": 1, "segment": "B", "b": 7000000, "t": 22500000},
+      {"group": "II", "groupSort": 2, "segment": "A", "b": 4000000, "t": 22500000},
+      {"group": "II", "groupSort": 2, "segment": "B", "b": 1000000, "t": 22500000},
+      {"group": "III", "groupSort": 3, "segment": "A", "b": 2000000, "t": 22500000},
+      {"group": "III", "groupSort": 3, "segment": "E", "b": 6000000, "t": 22500000},
+      {"group": "IV", "groupSort": 4, "segment": "A", "b": 8000000, "t": 18500000},
+      {"group": "IV", "groupSort": 4, "segment": "B", "b": 4000000, "t": 18500000},
+      {"group": "V", "groupSort": 5, "segment": "E", "b": 7000000, "t": 18500000}
+    ]
+  }
+}
