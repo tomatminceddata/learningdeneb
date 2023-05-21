@@ -163,7 +163,7 @@ I'm pretty sure that I will cover my learnings about resolve here in one of the 
 
 # The specification
 # The transform
-Almost two years have been passed between publishing this repository and writing this section, but I learned some new things, forgot some of them, and re-learned them. Now is the time to write these lines, as I do not want to spend time on things I already solved once too often. I realize that I'm still struggling with the syntax of vega/vega-lite. I assume this is because of the time I'm able to spend with deneb, and not because of the complexity.
+15 months have been passed between publishing this repository and writing this section, but I learned some new things, forgot some of them, and re-learned them. Now is the time to write these lines, as I do not want to spend time on things I already solved once too often. I realize that I'm still struggling with the syntax of vega/vega-lite. I assume this is because of the time I'm able to spend with deneb, and not because of the complexity.
 A vega/vega-lite specification might or might not contain an array of data transformations. Remember the specification of a data visualization for a single view, here a bar chart is depicted:
 {
 "data": ... ,
