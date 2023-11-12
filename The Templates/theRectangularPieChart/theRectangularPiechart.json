@@ -1,0 +1,445 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.6.0.2",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.16.1"
+    },
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "highlight": true,
+      "dataPointLimit": 50
+    },
+    "information": {
+      "name": "theRectangularPieChart",
+      "description": "This visual adds benefits of a pie chart to the more readable bar chart. The benefits are the ordered segments that allow to spot the contributing segments to an cumulative percentage of a single stack.",
+      "author": "Thomas 'Tom' Martens",
+      "uuid": "113acc5f-3006-4725-978e-ef885f6349fb",
+      "generated": "2023-11-12T12:55:48.115Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "theStacks",
+        "description": "A categorical column (nominal) that is used on the y-axis.",
+        "type": "numeric",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "theSegments",
+        "description": "A categorical column (nominal) that forms the segments of a single stack.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "theSegmentValue",
+        "description": "The value that represents a segment value, the length/width of a single segment inside a single stack.",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ]
+  },
+  "config": {
+    "view": {"stroke": "transparent"},
+    "font": "Segoe UI",
+    "arc": {},
+    "area": {
+      "line": true,
+      "opacity": 0.6
+    },
+    "bar": {},
+    "line": {
+      "strokeWidth": 3,
+      "strokeCap": "round",
+      "strokeJoin": "round"
+    },
+    "point": {
+      "filled": true,
+      "size": 75
+    },
+    "rect": {},
+    "text": {
+      "font": "Segoe UI",
+      "fontSize": 12,
+      "fill": "#605E5C"
+    },
+    "axis": {
+      "ticks": false,
+      "grid": false,
+      "domain": false,
+      "labelColor": "#605E5C",
+      "labelFontSize": 12,
+      "titleFont": "din",
+      "titleColor": "#252423",
+      "titleFontSize": 16,
+      "titleFontWeight": "normal"
+    },
+    "axisQuantitative": {
+      "tickCount": 3,
+      "grid": true,
+      "gridColor": "#C8C6C4",
+      "gridDash": [1, 5],
+      "labelFlush": false
+    },
+    "axisX": {"labelPadding": 5},
+    "axisY": {"labelPadding": 10},
+    "header": {
+      "titleFont": "din",
+      "titleFontSize": 16,
+      "titleColor": "#252423",
+      "labelFont": "Segoe UI",
+      "labelFontSize": 13.333333333333332,
+      "labelColor": "#605E5C"
+    },
+    "legend": {
+      "titleFont": "Segoe UI",
+      "titleFontWeight": "bold",
+      "titleColor": "#605E5C",
+      "labelFont": "Segoe UI",
+      "labelFontSize": 13.333333333333332,
+      "labelColor": "#605E5C",
+      "symbolType": "circle",
+      "symbolSize": 75
+    }
+  },
+  "data": {"name": "dataset"},
+  "transform": [
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "rowIndexToFilterFor"
+        }
+      ],
+      "groupby": ["__0__"]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "__2__",
+          "as": "groupSum"
+        }
+      ],
+      "groupby": ["__0__"]
+    },
+    {
+      "calculate": "datum['groupSum'] * 0.5",
+      "as": "the50Percpoint"
+    },
+    {
+      "calculate": "datum['groupSum'] * 0.25",
+      "as": "the25Percpoint"
+    },
+    {
+      "calculate": "datum['groupSum'] * 0.75",
+      "as": "the75Percpoint"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "__2__",
+          "as": "segmentSum"
+        }
+      ],
+      "groupby": ["__0__", "__1__"]
+    },
+    {
+      "window": [
+        {
+          "op": "sum",
+          "field": "__2__",
+          "as": "runningSegmentSum"
+        }
+      ],
+      "groupby": ["__0__"],
+      "sort": [
+        {
+          "field": "__2__",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "calculate": "datum['runningSegmentSum'] - datum['segmentSum']",
+      "as": "xSegmentBase"
+    },
+    {
+      "calculate": "datum['__2__'] * -1",
+      "as": "xSegmentSort"
+    },
+    {
+      "calculate": "datum['segmentSum']/datum['groupSum']",
+      "as": "xSegmentShare"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "height": {"band": 0.7}
+      },
+      "encoding": {
+        "x": {
+          "field": "__2__",
+          "type": "quantitative"
+        },
+        "axis": {
+          "title": null,
+          "format": ".2s"
+        },
+        "color": {
+          "field": "__1__",
+          "scale": {
+            "scheme": "tableau20"
+          },
+          "axis": {"title": null},
+          "legend": {
+            "title": null,
+            "orient": "bottom"
+          },
+          "sort": {
+            "field": "__2__",
+            "order": "descending"
+          }
+        },
+        "order": {
+          "field": "xSegmentSort",
+          "type": "ordinal"
+        },
+        "tooltip": [
+          {
+            "field": "__0__",
+            "type": "nominal"
+          },
+          {
+            "field": "__1__",
+            "type": "nominal"
+          },
+          {
+            "field": "__2__",
+            "type": "quantitative",
+            "format": ".0f",
+            "title": "__2__"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dir": "rtl",
+        "align": "left",
+        "dx": 3,
+        "size": 12,
+        "yOffset": {
+          "expr": "-bandwidth('y')/6.5"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "xSegmentBase",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "__2__",
+          "type": "quantitative",
+          "format": ",.2s"
+        },
+        "color": {
+          "condition": {
+            "test": "datum['__2__'] < 11",
+            "value": "transparent"
+          },
+          "value": "white"
+        },
+        "tooltip": [
+          {
+            "field": "__0__",
+            "type": "nominal"
+          },
+          {
+            "field": "__1__",
+            "type": "nominal"
+          },
+          {
+            "field": "__2__",
+            "type": "quantitative",
+            "format": ".0f",
+            "title": "__2__"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dir": "rtl",
+        "align": "left",
+        "dx": 3,
+        "size": 12,
+        "yOffset": {
+          "expr": "bandwidth('y')/6.5"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "xSegmentBase",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "xSegmentShare",
+          "type": "quantitative",
+          "format": ",.2%"
+        },
+        "color": {
+          "condition": {
+            "test": "datum['__2__'] < 11",
+            "value": "transparent"
+          },
+          "value": "white"
+        },
+        "tooltip": [
+          {
+            "field": "__0__",
+            "type": "nominal"
+          },
+          {
+            "field": "__1__",
+            "type": "nominal"
+          },
+          {
+            "field": "__2__",
+            "type": "quantitative",
+            "format": ".0f",
+            "title": "__2__"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "color": "black",
+        "dir": "ltr",
+        "align": "left",
+        "dx": 5,
+        "size": 12
+      },
+      "encoding": {
+        "x": {
+          "field": "groupSum",
+          "type": "quantitative",
+          "axis": {
+            "title": null,
+            "format": ",.2s"
+          }
+        },
+        "text": {
+          "field": "groupSum",
+          "aggregate": "mean",
+          "format": ".4s"
+        },
+        "tooltip": [
+          {
+            "field": "__0__",
+            "type": "nominal"
+          },
+          {
+            "field": "groupSum",
+            "type": "quantitative",
+            "format": ".0f",
+            "title": "__2__"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "shape": "triangle-down",
+        "size": 200,
+        "filled": true,
+        "stroke": "transparent",
+        "strokeWidth": 1,
+        "fill": "lightgrey",
+        "yOffset": {
+          "expr": "-bandwidth('y')/2.8"
+        }
+      },
+      "encoding": {
+        "x": {
+          "aggregate": "mean",
+          "field": "the25Percpoint",
+          "type": "quantitative",
+          "stack": "zero"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "shape": "triangle-down",
+        "size": 200,
+        "filled": true,
+        "stroke": "transparent",
+        "strokeWidth": 1,
+        "fill": "lightgrey",
+        "yOffset": {
+          "expr": "-bandwidth('y')/2.8"
+        }
+      },
+      "encoding": {
+        "x": {
+          "aggregate": "mean",
+          "field": "the50Percpoint",
+          "type": "quantitative",
+          "stack": "zero"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "shape": "triangle-down",
+        "size": 200,
+        "filled": true,
+        "stroke": "transparent",
+        "strokeWidth": 1,
+        "fill": "lightgrey",
+        "yOffset": {
+          "expr": "-bandwidth('y')/2.8"
+        }
+      },
+      "encoding": {
+        "x": {
+          "aggregate": "mean",
+          "field": "the75Percpoint",
+          "type": "quantitative",
+          "stack": "zero"
+        }
+      }
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "__0__",
+      "type": "nominal",
+      "axis": {"title": null},
+      "sort": {
+        "field": "__0__",
+        "order": "descending"
+      }
+    }
+  },
+  "resolve": {
+    "legend": {"color": "independent"}
+  }
+}
