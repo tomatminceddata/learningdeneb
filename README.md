@@ -7,7 +7,7 @@ I consider deneb different, because it provides a framework where I, the report 
 
 deneb allows to describe how the data at hand should be visualized by providing a specifiaction, this specifiaction is using json notification. Then this specifiaction is used for rendering a data visual, that out the box supports cross filter and tooltip capabilities (thanks to the inventer of the deneb custom visual). If you think this is simple, you are correct. Unfortunately, the vega-lite and the vega library provide a lot of means to manipulate the available data, create new data using transforms and expressions. Because, it is required to provide the "formula" in a syntax I'm not familiar with, I'm struggling. I thing what Alberto Ferrari and Marco Russo once have said about DAX is also valid for using vega-lite and vega: Using vega-lite or vega is simple, but not easy.
 
-As I'm convinced that deneb will play a great part when a custom visual is required, I will learn how use it.
+As I'm convinced that deneb will play a great part when a custom visual is required, I will learn how to use it.
 
 Throughout, the next months I will use this repo to share my findings, my projects - the data visualization tasks I'm currently working on.
 
