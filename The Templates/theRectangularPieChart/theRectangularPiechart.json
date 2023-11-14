@@ -164,6 +164,10 @@
         {
           "field": "__2__",
           "order": "descending"
+        },
+        {
+          "field": "__1__",
+          "order": "ascending"
         }
       ]
     },
