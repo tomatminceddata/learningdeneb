@@ -329,4 +329,4 @@ I very often use the transform operation "joinaggregate", this operation repeats
 # The encoding
 # The templates
 ## The rectangular pie chart
-Using triangle down markers that allow easy discovery of the segemnts inside a single that contribute to a given cumulative percentage like 25%, 50%, and 75%.
+Using triangle down markers that allow easy discovery of the segemnts inside a single stack that contribute to a given cumulative percentage like 25%, 50%, and 75%.
