@@ -26,7 +26,7 @@
         "key": "__0__",
         "name": "theStacks",
         "description": "A categorical column (nominal) that is used on the y-axis.",
-        "type": "numeric",
+        "type": "text",
         "kind": "column"
       },
       {
