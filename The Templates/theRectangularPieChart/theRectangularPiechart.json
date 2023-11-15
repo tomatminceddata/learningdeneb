@@ -18,21 +18,21 @@
       "name": "theRectangularPieChart",
       "description": "This visual adds benefits of a pie chart to the more readable bar chart. The benefits are the ordered segments that allow to spot the contributing segments to an cumulative percentage of a single stack.",
       "author": "Thomas 'Tom' Martens",
-      "uuid": "113acc5f-3006-4725-978e-ef885f6349fb",
-      "generated": "2023-11-12T12:55:48.115Z"
+      "uuid": "d69986c2-ae1e-4323-b39f-da885d04852d",
+      "generated": "2023-11-15T05:24:58.829Z"
     },
     "dataset": [
       {
         "key": "__0__",
         "name": "theStacks",
-        "description": "A categorical column (nominal) that is used on the y-axis.",
-        "type": "text",
+        "description": "A categorical column (nominal) that is used on the y-axis. Make sure that numerical fields are not summarized, e.g. Year.",
+        "type": "numeric",
         "kind": "column"
       },
       {
         "key": "__1__",
         "name": "theSegments",
-        "description": "A categorical column (nominal) that forms the segments of a single stack.",
+        "description": "A categorical column (nominal) that forms the segments of a single stack. Make sure that numerical fields are not summarized, e.g. Year.",
         "type": "text",
         "kind": "column"
       },
@@ -152,6 +152,16 @@
       "groupby": ["__0__", "__1__"]
     },
     {
+      "joinaggregate": [
+        {
+          "op": "count",
+          "field": "__1__",
+          "as": "segmentCount"
+        }
+      ],
+      "groupby": ["__0__"]
+    },
+    {
       "window": [
         {
           "op": "sum",
@@ -164,10 +174,6 @@
         {
           "field": "__2__",
           "order": "descending"
-        },
-        {
-          "field": "__1__",
-          "order": "ascending"
         }
       ]
     },
@@ -232,6 +238,111 @@
             "type": "quantitative",
             "format": ".0f",
             "title": "__2__"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "shape": "triangle-down",
+        "size": 200,
+        "filled": true,
+        "stroke": "transparent",
+        "strokeWidth": 1,
+        "yOffset": {
+          "expr": "-bandwidth('y')/2.8"
+        }
+      },
+      "encoding": {
+        "x": {
+          "aggregate": "mean",
+          "field": "the25Percpoint",
+          "type": "quantitative",
+          "stack": "zero"
+        },
+        "color": {
+          "condition": {
+            "test": "datum['segmentCount'] == 1",
+            "value": "transparent"
+          },
+          "value": "lightgrey"
+        },
+        "tooltip": [
+          {
+            "field": "segmentCount",
+            "type": "quantitative",
+            "title": "# of segments"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "shape": "triangle-down",
+        "size": 200,
+        "filled": true,
+        "stroke": "transparent",
+        "strokeWidth": 1,
+        "yOffset": {
+          "expr": "-bandwidth('y')/2.8"
+        }
+      },
+      "encoding": {
+        "x": {
+          "aggregate": "mean",
+          "field": "the50Percpoint",
+          "type": "quantitative",
+          "stack": "zero"
+        },
+        "color": {
+          "condition": {
+            "test": "datum['segmentCount'] == 1",
+            "value": "transparent"
+          },
+          "value": "lightgrey"
+        },
+        "tooltip": [
+          {
+            "field": "segmentCount",
+            "type": "quantitative",
+            "title": "# of segments"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "shape": "triangle-down",
+        "size": 200,
+        "filled": true,
+        "stroke": "transparent",
+        "strokeWidth": 1,
+        "yOffset": {
+          "expr": "-bandwidth('y')/2.8"
+        }
+      },
+      "encoding": {
+        "x": {
+          "aggregate": "mean",
+          "field": "the75Percpoint",
+          "type": "quantitative",
+          "stack": "zero"
+        },
+        "color": {
+          "condition": {
+            "test": "datum['segmentCount'] == 1",
+            "value": "transparent"
+          },
+          "value": "lightgrey"
+        },
+        "tooltip": [
+          {
+            "field": "segmentCount",
+            "type": "quantitative",
+            "title": "# of segments"
           }
         ]
       }
@@ -363,72 +474,6 @@
             "title": "__2__"
           }
         ]
-      }
-    },
-    {
-      "mark": {
-        "type": "point",
-        "shape": "triangle-down",
-        "size": 200,
-        "filled": true,
-        "stroke": "transparent",
-        "strokeWidth": 1,
-        "fill": "lightgrey",
-        "yOffset": {
-          "expr": "-bandwidth('y')/2.8"
-        }
-      },
-      "encoding": {
-        "x": {
-          "aggregate": "mean",
-          "field": "the25Percpoint",
-          "type": "quantitative",
-          "stack": "zero"
-        }
-      }
-    },
-    {
-      "mark": {
-        "type": "point",
-        "shape": "triangle-down",
-        "size": 200,
-        "filled": true,
-        "stroke": "transparent",
-        "strokeWidth": 1,
-        "fill": "lightgrey",
-        "yOffset": {
-          "expr": "-bandwidth('y')/2.8"
-        }
-      },
-      "encoding": {
-        "x": {
-          "aggregate": "mean",
-          "field": "the50Percpoint",
-          "type": "quantitative",
-          "stack": "zero"
-        }
-      }
-    },
-    {
-      "mark": {
-        "type": "point",
-        "shape": "triangle-down",
-        "size": 200,
-        "filled": true,
-        "stroke": "transparent",
-        "strokeWidth": 1,
-        "fill": "lightgrey",
-        "yOffset": {
-          "expr": "-bandwidth('y')/2.8"
-        }
-      },
-      "encoding": {
-        "x": {
-          "aggregate": "mean",
-          "field": "the75Percpoint",
-          "type": "quantitative",
-          "stack": "zero"
-        }
       }
     }
   ],
