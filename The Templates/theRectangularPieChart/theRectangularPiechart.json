@@ -1,114 +1,74 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "usermeta": {
+    "information": {
+      "uuid": "c87f06be-6efa-42f7-a6e7-d8c73a0e9cf4",
+      "generated": "2024-09-16T10:38:07.385Z",
+      "previewImageBase64PNG": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+      "name": "theRectangularPiechart.json",
+      "description": "This visual adds benefits of a pie chart to the more readable bar chart. The benefits are the ordered segments that allow to spot the contributing segments to an cumulative percentage of a single stack.",
+      "author": "Thomas 'Tom' Martens"
+    },
     "deneb": {
-      "build": "1.6.0.2",
+      "build": "1.7.1.0",
       "metaVersion": 1,
       "provider": "vegaLite",
-      "providerVersion": "5.16.1"
+      "providerVersion": "5.20.1"
     },
     "interactivity": {
       "tooltip": true,
       "contextMenu": true,
       "selection": true,
+      "selectionMode": "simple",
       "highlight": true,
       "dataPointLimit": 50
     },
-    "information": {
-      "name": "theRectangularPieChart",
-      "description": "This visual adds benefits of a pie chart to the more readable bar chart. The benefits are the ordered segments that allow to spot the contributing segments to an cumulative percentage of a single stack.",
-      "author": "Thomas 'Tom' Martens",
-      "uuid": "d69986c2-ae1e-4323-b39f-da885d04852d",
-      "generated": "2023-11-15T05:24:58.829Z"
-    },
+    "config": "{\n  \"view\": {\n    \"stroke\": \"transparent\"\n  },\n  \"font\": \"Segoe UI\",\n  \"arc\": {},\n  \"area\": {\n    \"line\": true,\n    \"opacity\": 0.6\n  },\n  \"bar\": {},\n  \"line\": {\n    \"strokeWidth\": 3,\n    \"strokeCap\": \"round\",\n    \"strokeJoin\": \"round\"\n  },\n  \"point\": {\n    \"filled\": true,\n    \"size\": 75\n  },\n  \"rect\": {},\n  \"text\": {\n    \"font\": \"Segoe UI\",\n    \"fontSize\": 12,\n    \"fill\": \"#605E5C\"\n  },\n  \"axis\": {\n    \"ticks\": false,\n    \"grid\": false,\n    \"domain\": false,\n    \"labelColor\": \"#605E5C\",\n    \"labelFontSize\": 12,\n    \"titleFont\": \"din\",\n    \"titleColor\": \"#252423\",\n    \"titleFontSize\": 16,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisQuantitative\": {\n    \"tickCount\": 3,\n    \"grid\": true,\n    \"gridColor\": \"#C8C6C4\",\n    \"gridDash\": [\n      1,\n      5\n    ],\n    \"labelFlush\": false\n  },\n  \"axisX\": {\n    \"labelPadding\": 5\n  },\n  \"axisY\": {\n    \"labelPadding\": 10\n  },\n  \"header\": {\n    \"titleFont\": \"din\",\n    \"titleFontSize\": 16,\n    \"titleColor\": \"#252423\",\n    \"labelFont\": \"Segoe UI\",\n    \"labelFontSize\": 13.333333333333332,\n    \"labelColor\": \"#605E5C\"\n  },\n  \"legend\": {\n    \"titleFont\": \"Segoe UI\",\n    \"titleFontWeight\": \"bold\",\n    \"titleColor\": \"#605E5C\",\n    \"labelFont\": \"Segoe UI\",\n    \"labelFontSize\": 13.333333333333332,\n    \"labelColor\": \"#605E5C\",\n    \"symbolType\": \"circle\",\n    \"symbolSize\": 75\n  }\n}",
     "dataset": [
       {
         "key": "__0__",
-        "name": "theStacks",
-        "description": "A categorical column (nominal) that is used on the y-axis. Make sure that numerical fields are not summarized, e.g. Year.",
-        "type": "text",
-        "kind": "column"
+        "name": "theSegments",
+        "description": "A categorical column (nominal) that forms the segments of a single stack. Make sure that numerical fields are not summarized, e.g. Year.",
+        "kind": "column",
+        "type": "text"
       },
       {
         "key": "__1__",
-        "name": "theSegments",
-        "description": "A categorical column (nominal) that forms the segments of a single stack. Make sure that numerical fields are not summarized, e.g. Year.",
-        "type": "text",
-        "kind": "column"
+        "name": "theStacks",
+        "description": "A categorical column (nominal) that is used on the y-axis. Make sure that numerical fields are not summarized, e.g. Year.",
+        "kind": "column",
+        "type": "text"
       },
       {
         "key": "__2__",
         "name": "theSegmentValue",
         "description": "The value that represents a segment value, the length/width of a single segment inside a single stack.",
-        "type": "numeric",
-        "kind": "measure"
+        "kind": "measure",
+        "type": "numeric"
       }
     ]
   },
-  "config": {
-    "view": {"stroke": "transparent"},
-    "font": "Segoe UI",
-    "arc": {},
-    "area": {
-      "line": true,
-      "opacity": 0.6
+  "params": [
+    {
+      "name": "show25percentMark",
+      "value": false
     },
-    "bar": {},
-    "line": {
-      "strokeWidth": 3,
-      "strokeCap": "round",
-      "strokeJoin": "round"
+    {
+      "name": "show50percentMark",
+      "value": true
     },
-    "point": {
-      "filled": true,
-      "size": 75
+    {
+      "name": "show75percentMark",
+      "value": false
     },
-    "rect": {},
-    "text": {
-      "font": "Segoe UI",
-      "fontSize": 12,
-      "fill": "#605E5C"
-    },
-    "axis": {
-      "ticks": false,
-      "grid": false,
-      "domain": false,
-      "labelColor": "#605E5C",
-      "labelFontSize": 12,
-      "titleFont": "din",
-      "titleColor": "#252423",
-      "titleFontSize": 16,
-      "titleFontWeight": "normal"
-    },
-    "axisQuantitative": {
-      "tickCount": 3,
-      "grid": true,
-      "gridColor": "#C8C6C4",
-      "gridDash": [1, 5],
-      "labelFlush": false
-    },
-    "axisX": {"labelPadding": 5},
-    "axisY": {"labelPadding": 10},
-    "header": {
-      "titleFont": "din",
-      "titleFontSize": 16,
-      "titleColor": "#252423",
-      "labelFont": "Segoe UI",
-      "labelFontSize": 13.333333333333332,
-      "labelColor": "#605E5C"
-    },
-    "legend": {
-      "titleFont": "Segoe UI",
-      "titleFontWeight": "bold",
-      "titleColor": "#605E5C",
-      "labelFont": "Segoe UI",
-      "labelFontSize": 13.333333333333332,
-      "labelColor": "#605E5C",
-      "symbolType": "circle",
-      "symbolSize": 75
+    {
+      "name": "hideLablelsValueBelow",
+      "value": 30000000
     }
+  ],
+  "data": {
+    "name": "dataset"
   },
-  "data": {"name": "dataset"},
   "transform": [
     {
       "window": [
@@ -117,7 +77,18 @@
           "as": "rowIndexToFilterFor"
         }
       ],
-      "groupby": ["__0__"]
+      "groupby": [
+        "__1__"
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "__2__",
+          "as": "totalSum"
+        }
+      ]
     },
     {
       "joinaggregate": [
@@ -127,7 +98,13 @@
           "as": "groupSum"
         }
       ],
-      "groupby": ["__0__"]
+      "groupby": [
+        "__1__"
+      ]
+    },
+    {
+      "calculate": "datum['groupSum'] / datum['totalSum']",
+      "as": "groupShare"
     },
     {
       "calculate": "datum['groupSum'] * 0.5",
@@ -149,17 +126,22 @@
           "as": "segmentSum"
         }
       ],
-      "groupby": ["__0__", "__1__"]
+      "groupby": [
+        "__1__",
+        "__0__"
+      ]
     },
     {
       "joinaggregate": [
         {
           "op": "count",
-          "field": "__1__",
+          "field": "__0__",
           "as": "segmentCount"
         }
       ],
-      "groupby": ["__0__"]
+      "groupby": [
+        "__1__"
+      ]
     },
     {
       "window": [
@@ -169,7 +151,9 @@
           "as": "runningSegmentSum"
         }
       ],
-      "groupby": ["__0__"],
+      "groupby": [
+        "__1__"
+      ],
       "sort": [
         {
           "field": "__2__",
@@ -192,9 +176,12 @@
   ],
   "layer": [
     {
+      "description": "bars",
       "mark": {
         "type": "bar",
-        "height": {"band": 0.7}
+        "height": {
+          "band": 0.7
+        }
       },
       "encoding": {
         "x": {
@@ -206,11 +193,13 @@
           "format": ".2s"
         },
         "color": {
-          "field": "__1__",
+          "field": "__0__",
           "scale": {
             "scheme": "tableau20"
           },
-          "axis": {"title": null},
+          "axis": {
+            "title": null
+          },
           "legend": {
             "title": null,
             "orient": "bottom"
@@ -223,30 +212,17 @@
         "order": {
           "field": "xSegmentSort",
           "type": "ordinal"
-        },
-        "tooltip": [
-          {
-            "field": "__0__",
-            "type": "nominal"
-          },
-          {
-            "field": "__1__",
-            "type": "nominal"
-          },
-          {
-            "field": "__2__",
-            "type": "quantitative",
-            "format": ".0f",
-            "title": "__2__"
-          }
-        ]
+        }
       }
     },
     {
+      "description": "25% mark",
       "mark": {
         "type": "point",
         "shape": "triangle-down",
-        "size": 200,
+        "size": {
+          "expr": "15*bandwidth('y')/2.8"
+        },
         "filled": true,
         "stroke": "transparent",
         "strokeWidth": 1,
@@ -263,7 +239,7 @@
         },
         "color": {
           "condition": {
-            "test": "datum['segmentCount'] == 1",
+            "test": "show25percentMark === false || datum['segmentCount'] == 1",
             "value": "transparent"
           },
           "value": "lightgrey"
@@ -278,10 +254,13 @@
       }
     },
     {
+      "description": "50% mark",
       "mark": {
         "type": "point",
         "shape": "triangle-down",
-        "size": 200,
+        "size": {
+          "expr": "15*bandwidth('y')/2.8"
+        },
         "filled": true,
         "stroke": "transparent",
         "strokeWidth": 1,
@@ -298,7 +277,7 @@
         },
         "color": {
           "condition": {
-            "test": "datum['segmentCount'] == 1",
+            "test": "show50percentMark === false || datum['segmentCount'] == 1",
             "value": "transparent"
           },
           "value": "lightgrey"
@@ -313,10 +292,13 @@
       }
     },
     {
+      "description": "75% mark",
       "mark": {
         "type": "point",
         "shape": "triangle-down",
-        "size": 200,
+        "size": {
+          "expr": "15*bandwidth('y')/2.8"
+        },
         "filled": true,
         "stroke": "transparent",
         "strokeWidth": 1,
@@ -333,7 +315,7 @@
         },
         "color": {
           "condition": {
-            "test": "datum['segmentCount'] == 1",
+            "test": "show75percentMark === false || datum['segmentCount'] == 1",
             "value": "transparent"
           },
           "value": "lightgrey"
@@ -348,6 +330,7 @@
       }
     },
     {
+      "description": "data labels, segmnt value",
       "mark": {
         "type": "text",
         "dir": "rtl",
@@ -370,30 +353,15 @@
         },
         "color": {
           "condition": {
-            "test": "datum['__2__'] < 11",
+            "test": "datum['__2__'] < hideLablelsValueBelow",
             "value": "transparent"
           },
           "value": "white"
-        },
-        "tooltip": [
-          {
-            "field": "__0__",
-            "type": "nominal"
-          },
-          {
-            "field": "__1__",
-            "type": "nominal"
-          },
-          {
-            "field": "__2__",
-            "type": "quantitative",
-            "format": ".0f",
-            "title": "__2__"
-          }
-        ]
+        }
       }
     },
     {
+      "description": "data labels, segement percentage",
       "mark": {
         "type": "text",
         "dir": "rtl",
@@ -412,41 +380,29 @@
         "text": {
           "field": "xSegmentShare",
           "type": "quantitative",
-          "format": ",.2%"
+          "format": ".1%"
         },
         "color": {
           "condition": {
-            "test": "datum['__2__'] < 11",
+            "test": "datum['__2__'] < hideLablelsValueBelow",
             "value": "transparent"
           },
           "value": "white"
-        },
-        "tooltip": [
-          {
-            "field": "__0__",
-            "type": "nominal"
-          },
-          {
-            "field": "__1__",
-            "type": "nominal"
-          },
-          {
-            "field": "__2__",
-            "type": "quantitative",
-            "format": ".0f",
-            "title": "__2__"
-          }
-        ]
+        }
       }
     },
     {
+      "description": "data labels, total value",
       "mark": {
         "type": "text",
         "color": "black",
         "dir": "ltr",
         "align": "left",
         "dx": 5,
-        "size": 12
+        "size": 12,
+        "yOffset": {
+          "expr": "-bandwidth('y')/6.5"
+        }
       },
       "encoding": {
         "x": {
@@ -461,34 +417,73 @@
           "field": "groupSum",
           "aggregate": "mean",
           "format": ".4s"
-        },
-        "tooltip": [
-          {
-            "field": "__0__",
-            "type": "nominal"
-          },
-          {
-            "field": "groupSum",
-            "type": "quantitative",
-            "format": ".0f",
-            "title": "__2__"
+        }
+      }
+    },
+    {
+      "description": "data labels, group percentage",
+      "mark": {
+        "type": "text",
+        "color": "darkgray",
+        "dir": "ltr",
+        "align": "left",
+        "dx": 5,
+        "size": 12,
+        "yOffset": {
+          "expr": "bandwidth('y')/6.5"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "groupSum",
+          "type": "quantitative",
+          "axis": {
+            "title": null,
+            "format": ",.2s"
           }
-        ]
+        },
+        "text": {
+          "field": "groupShare",
+          "aggregate": "mean",
+          "format": ".2%"
+        }
       }
     }
   ],
   "encoding": {
     "y": {
-      "field": "__0__",
+      "field": "__1__",
       "type": "nominal",
-      "axis": {"title": null},
+      "axis": {
+        "title": null
+      },
       "sort": {
-        "field": "__0__",
+        "field": "__2__",
         "order": "descending"
       }
-    }
+    },
+    "tooltip": [
+      {
+        "field": "__1__",
+        "type": "nominal"
+      },
+      {
+        "field": "segmentSum",
+        "type": "quantitative",
+        "format": ".2s",
+        "title": "Segement Sales Amount"
+      },
+      {
+        "field": "groupSum",
+        "type": "quantitative",
+        "format": ".4s",
+        "title": "Total Sales Amount"
+      }
+    ]
   },
   "resolve": {
-    "legend": {"color": "independent"}
+    "legend": {
+      "color": "independent"
+    }
   }
 }
